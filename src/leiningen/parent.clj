@@ -60,7 +60,7 @@
                                           :repositories (map (comp (partial update-policies update checksum) classpath/add-repo-auth)
                                                              repositories)
                                           :offline? offline?))
-        _ (spit "/tmp/lein-parent.txt" (str resolved-parent-artifact " " (:file (meta resolved-parent-artifact)))
+        _ (spit "/tmp/lein-parent.txt" (str :resolved-artifact resolved-parent-artifact " " (:file (meta resolved-parent-artifact)))
                 :append true)
         artifact-jar (:file (meta resolved-parent-artifact))
         artifact-zip (ZipFile. artifact-jar)
