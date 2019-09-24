@@ -53,12 +53,15 @@
 
 (defn resolve-project-from-coords
   [coords {:keys [repositories offline? update checksum]}]
-  (spit "/tmp/lein-parent.txt" (str :resolve-project-from-coords coords (doall (seq repositories))))
+  (spit "/tmp/lein-parent.txt" (str :resolve-project-from-coords " " coords " " (doall (seq repositories))))
+  ; TODO: first is unsafe, use keep or some
   (let [resolved-parent-artifact (first (aether/resolve-artifacts
                                           :coordinates [coords]
                                           :repositories (map (comp (partial update-policies update checksum) classpath/add-repo-auth)
                                                              repositories)
                                           :offline? offline?))
+        _ (spit "/tmp/lein-parent.txt" (str resolved-parent-artifact)
+                :append true)
         artifact-jar (:file (meta resolved-parent-artifact))
         artifact-zip (ZipFile. artifact-jar)
         project-clj-path (format "META-INF/leiningen/%s/project.clj" (first coords))]
