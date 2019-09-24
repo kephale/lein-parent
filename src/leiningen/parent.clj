@@ -53,7 +53,7 @@
 
 (defn resolve-project-from-coords
   [coords {:keys [repositories offline? update checksum]}]
-  (spit "/tmp/lein-parent.txt" (str :resolve-project-from-coords coords repositories))
+  (spit "/tmp/lein-parent.txt" (str :resolve-project-from-coords coords (doall (seq repositories))))
   (let [resolved-parent-artifact (first (aether/resolve-artifacts
                                           :coordinates [coords]
                                           :repositories (map (comp (partial update-policies update checksum) classpath/add-repo-auth)
