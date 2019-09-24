@@ -60,8 +60,7 @@
                                           :repositories (map (comp (partial update-policies update checksum) classpath/add-repo-auth)
                                                              repositories)
                                           :offline? offline?))
-        _ (spit "/tmp/lein-parent.txt" (str :resolved-artifact resolved-parent-artifact " " (:file (meta resolved-parent-artifact)))
-                :append true)
+        _ (spit "/tmp/lein-parent2.txt" (str :resolved-artifact resolved-parent-artifact " " (:file (meta resolved-parent-artifact))))
         artifact-jar (:file (meta resolved-parent-artifact))
         artifact-zip (ZipFile. artifact-jar)
         project-clj-path (format "META-INF/leiningen/%s/project.clj" (first coords))]
